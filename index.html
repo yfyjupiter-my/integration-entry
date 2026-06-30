@@ -8,12 +8,27 @@
 </head>
 <body>
   <header>
-    <h1>Tool Portal</h1>
+    <h1>
+      <svg class="logo" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
+        <rect x="2" y="2" width="9" height="9" rx="2"/>
+        <rect x="13" y="2" width="9" height="9" rx="2"/>
+        <rect x="2" y="13" width="9" height="9" rx="2"/>
+        <rect x="13" y="13" width="9" height="9" rx="2"/>
+      </svg>
+      Tool Portal
+    </h1>
     <input id="search" type="search" placeholder="Search tools…  (Esc to clear)" autofocus
            autocomplete="off" aria-label="Search tools">
   </header>
   <main id="tools"></main>
-  <footer>Edit <code>tools.js</code> and <code>git push</code> to update.</footer>
+  <footer>
+    <nav>
+      <a href="https://github.com">GitHub</a>
+      <a href="docs/">Docs</a>
+      <a href="prd.md">PRD</a>
+    </nav>
+    <p>Edit <code>tools.js</code> and <code>git push</code> to update. &middot; &copy; <span id="year"></span> Tool Portal</p>
+  </footer>
   <script src="tools.js"></script>
 </body>
 </html>
