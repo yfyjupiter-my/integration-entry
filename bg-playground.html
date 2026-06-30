@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Background Playground — Tool Portal</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── picker bar ── */
+    #picker {
+      position: fixed; bottom: 1.5rem; left: 50%; translate: -50% 0;
+      display: flex; gap: .5rem; align-items: center;
+      background: rgba(255,255,255,.85); backdrop-filter: blur(12px);
+      border: 1px solid #e0e0e0; border-radius: 999px;
+      padding: .5rem .9rem; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,.12);
+      font: 13px/1 system-ui, sans-serif;
+    }
+    #picker span { color: #888; padding-right: .4rem; border-right: 1px solid #e0e0e0; margin-right: .2rem; }
+    .swatch { cursor: pointer; border: 2px solid transparent; border-radius: 999px; padding: .35rem .9rem; font-size: .8rem; font-weight: 600; color: #444; transition: border-color .15s, color .15s; }
+    .swatch:hover { border-color: #bbb; }
+    .swatch.active { border-color: #555; color: #111; }
+    #apply-btn {
+      margin-left: .4rem; padding: .35rem 1rem; font-size: .8rem; font-weight: 700;
+      background: #111; color: #fff; border: none; border-radius: 999px; cursor: pointer;
+      transition: background .12s;
+    }
+    #apply-btn:hover { background: #333; }
+
+    /* ── background options ── */
+
+    /* 1 — Dot grid */
+    body.bg-dots {
+      background-color: #f5f5f5;
+      background-image: radial-gradient(circle, #c8c8c8 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+    body.bg-dots header { background-color: #f5f5f5; }
+    body.bg-dots #search { background: #f5f5f5; }
+
+    /* 2 — Aurora mesh */
+    body.bg-aurora {
+      background-color: #f0f4ff;
+      background-image:
+        radial-gradient(ellipse 70% 50% at 10% 20%, rgba(180,210,255,.55) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 60% at 85% 10%, rgba(220,190,255,.45) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 50% at 50% 95%, rgba(180,240,220,.40) 0%, transparent 60%);
+    }
+    body.bg-aurora header { background: rgba(240,244,255,.88); backdrop-filter: blur(8px); }
+    body.bg-aurora #search { background: rgba(240,244,255,.95); }
+
+    /* 3 — Warm linen */
+    body.bg-linen {
+      background-color: #f7f4ef;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeBlend in='SourceGraphic' mode='multiply'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    }
+    body.bg-linen header { background-color: #f7f4ef; }
+    body.bg-linen #search { background: #f7f4ef; }
+  </style>
+</head>
+<body class="bg-dots">
+  <header>
+    <h1>
+      <svg class="logo" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
+        <rect x="2" y="2" width="9" height="9" rx="2"/>
+        <rect x="13" y="2" width="9" height="9" rx="2"/>
+        <rect x="2" y="13" width="9" height="9" rx="2"/>
+        <rect x="13" y="13" width="9" height="9" rx="2"/>
+      </svg>
+      Tool Portal
+    </h1>
+    <div class="search-wrap">
+      <input id="search" type="search" placeholder="Search tools…  (Esc to clear)"
+             autocomplete="off" aria-label="Search tools">
+    </div>
+  </header>
+  <main id="tools"></main>
+  <footer>
+    <nav>
+      <a href="https://github.com">GitHub</a>
+      <a href="docs/">Docs</a>
+      <a href="prd.md">PRD</a>
+    </nav>
+    <p>Edit <code>tools.js</code> and <code>git push</code> to update. &middot; &copy; <span id="year"></span> Tool Portal</p>
+  </footer>
+  <script src="tools.js"></script>
+
+  <!-- picker -->
+  <div id="picker">
+    <span>Background</span>
+    <button class="swatch active" data-bg="bg-dots">① Dot Grid</button>
+    <button class="swatch" data-bg="bg-aurora">② Aurora</button>
+    <button class="swatch" data-bg="bg-linen">③ Linen</button>
+    <button id="apply-btn">Apply to site →</button>
+  </div>
+
+  <script>
+    const body = document.body;
+    const swatches = document.querySelectorAll('.swatch[data-bg]');
+    const BG_CLASSES = ['bg-dots','bg-aurora','bg-linen'];
+
+    swatches.forEach(btn => {
+      btn.addEventListener('click', () => {
+        body.classList.remove(...BG_CLASSES);
+        body.classList.add(btn.dataset.bg);
+        swatches.forEach(s => s.classList.toggle('active', s === btn));
+      });
+    });
+
+    document.getElementById('apply-btn').addEventListener('click', () => {
+      const active = [...swatches].find(s => s.classList.contains('active'));
+      const choice = active?.dataset.bg ?? 'bg-dots';
+      const label = active?.textContent.trim() ?? '';
+      alert(`Choice locked: ${label}\n\nTell Claude which option you picked and it will apply it to style.css + index.html.`);
+    });
+  </script>
+</body>
+</html>

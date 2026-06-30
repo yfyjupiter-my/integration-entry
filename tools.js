@@ -10,7 +10,7 @@ const ICONS = {
 const GENERIC = "M4 4h16v16H4zM4 9h16";
 
 const TOOLS = [
-  { name: "Example Tool", url: "https://example.com", category: "General", desc: "Replace me." },
+  { name: "Office Kit", url: "https://officekit.maplescraps.com/", category: "General", desc: "Mini tools" },
   { name: "Project Management", url: "https://example.com", category: "General", desc: "Replace me." },
   { name: "Example CI/CD Tool", url: "https://example.com", category: "CI/CD", desc: "Replace me." },
   { name: "Example IT Support Tool", url: "https://example.com", category: "IT Support", desc: "Replace me." },
