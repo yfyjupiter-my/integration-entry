@@ -12,8 +12,8 @@ const GENERIC = "M4 4h16v16H4zM4 9h16";
 const TOOLS = [
   { name: "Office Kit", url: "https://officekit.maplescraps.com/", category: "General", desc: "Mini tools" },
   { name: "Task Management", url: "https://yfyjupiter-my.github.io/task-management/", category: "General", desc: "Centralize your tasks for simple manage" },
-  { name: "Example CI/CD Tool", url: "https://example.com", category: "CI/CD", desc: "Replace me." },
-  { name: "Example IT Support Tool", url: "https://example.com", category: "IT Support", desc: "Replace me." },
+  { name: "Example CI/CD Tool", url: "https://example.com", category: "CI/CD", desc: "Coming soon" },
+  { name: "IT Knowledge-Base", url: "https://example.com", category: "IT Support", desc: "Coming soon" },
   { name: "Example Infrastructure Tool", url: "https://example.com", category: "Infrastructure", desc: "Replace me.", icon: ICONS.box },
   { name: "Grafana", url: "https://grafana.com", category: "Observability", desc: "Dashboards & metrics.", color: "#f46800", icon: ICONS.chart },
   { name: "Sentry", url: "https://sentry.io", category: "Observability", desc: "Error tracking.", color: "#6c5fc7", icon: ICONS.bell },
