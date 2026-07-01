@@ -15,12 +15,13 @@ const TOOLS = [
   { name: "Example CI/CD Tool", url: "https://example.com", category: "CI/CD", desc: "Coming soon" },
   { name: "IT Knowledge-Base", url: "https://example.com", category: "IT Support", desc: "Coming soon" },
   { name: "Endpoit Central", url: "https://endpoint-central.internal:8383/webclient#/uems/home/getting-started", category: "IT Support", desc: "Unified Endpoint Management and Security Platform"},
-  { name: "Example Infrastructure Tool", url: "https://example.com", category: "Infrastructure", desc: "Replace me.", icon: ICONS.box },
-  { name: "Grafana", url: "https://grafana.com", category: "Observability", desc: "Dashboards & metrics.", color: "#f46800", icon: ICONS.chart },
-  { name: "Sentry", url: "https://sentry.io", category: "Observability", desc: "Error tracking.", color: "#6c5fc7", icon: ICONS.bell },
-  { name: "Datadog", url: "https://www.datadoghq.com", category: "Observability", desc: "Monitoring & APM.", color: "#632ca6", icon: ICONS.chart },
-  { name: "Prometheus", url: "https://prometheus.io", category: "Observability", desc: "Metrics & alerting.", color: "#e6522c", icon: ICONS.bell },
-  { name: "Loki", url: "https://grafana.com/oss/loki/", category: "Observability", desc: "Log aggregation.", color: "#fbcb0a" },
+  { name: "Snipe-IT Asset Management", url: "http://snipe-it.internal:8000", category: "IT Support", desc: "Asset and Financial Tracking"},
+  { name: "Example Infrastructure Tool", url: "https://example.com", category: "Infrastructure", desc: "Coming soon", icon: ICONS.box },
+  { name: "Grafana", url: "https://grafana.com", category: "Observability", desc: "Coming soon", color: "#f46800", icon: ICONS.chart },
+  { name: "Sentry", url: "https://sentry.io", category: "Observability", desc: "Coming soon", color: "#6c5fc7", icon: ICONS.bell },
+  { name: "Datadog", url: "https://www.datadoghq.com", category: "Observability", desc: "Coming soon", color: "#632ca6", icon: ICONS.chart },
+  { name: "Prometheus", url: "https://prometheus.io", category: "Observability", desc: "Coming soon", color: "#e6522c", icon: ICONS.bell },
+  { name: "Loki", url: "https://grafana.com/oss/loki/", category: "Observability", desc: "Coming soon", color: "#fbcb0a" },
 ];
 
 // Stable color from name when none given: hash → hue.
