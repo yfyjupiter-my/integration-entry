@@ -13,6 +13,7 @@ const TOOLS = [
   { name: "Office Kit", url: "https://officekit.maplescraps.com/", category: "General", desc: "Mini tools" },
   { name: "Task Management", url: "https://yfyjupiter-my.github.io/task-management/", category: "General", desc: "Centralize your tasks for simple manage" },
   { name: "Knowledge Board", url: "https://knowledge-board-lovat.vercel.app/", category: "General", desc: "Self-study knowledge manage"},
+  { name: "Calculator", url: "https://yfyjupiter-my.github.io/calculator/", category: "General", desc: "Simple math calculation"}，
   { name: "Example CI/CD Tool", url: "https://example.com", category: "CI/CD", desc: "Coming soon" },
   { name: "IT Knowledge-Base", url: "https://example.com", category: "IT Support", desc: "Coming soon" },
   { name: "Endpoit Central", url: "https://endpoint-central.internal:8383/webclient#/uems/home/getting-started", category: "IT Support", desc: "Unified Endpoint Management and Security Platform"},
