@@ -38,6 +38,7 @@ const byCat = TOOLS.reduce((m, t) => ((m[t.category] ??= []).push(t), m), {});
 for (const [cat, tools] of Object.entries(byCat)) {
   const section = document.createElement("section");
   section.dataset.cat = cat;
+  section.style.setProperty("--cat", `hsl(${hashHue(cat)} 60% 45%)`);
   section.innerHTML = `<h2>${cat}</h2><div class="grid"></div>`;
   const grid = section.querySelector(".grid");
   for (const t of tools) {

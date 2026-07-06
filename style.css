@@ -45,7 +45,17 @@ h1 { margin: 0; font-size: 1.6rem; font-weight: 700; display: flex; align-items:
 #search:focus { outline: none; }
 #tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: var(--gap); align-items: start; }
 section { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: var(--gap); box-shadow: 0 1px 3px rgba(0,0,0,.04); }
-section h2 { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: #999; margin: 0 0 1rem; }
+@keyframes cat-blink { 50% { opacity: .55; } }
+section h2 {
+  display: inline-block;
+  font-size: .72rem; text-transform: uppercase; letter-spacing: .08em;
+  margin: 0 0 1rem;
+  padding: .28rem .7rem; border-radius: 999px;
+  color: var(--cat, #999);
+  background: color-mix(in srgb, var(--cat, #999) 14%, transparent);
+  animation: cat-blink 1.6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) { section h2 { animation: none; } }
 .grid { display: grid; gap: .5rem; }
 .tool { display: flex; gap: .7rem; align-items: center; padding: .7rem .85rem; border-radius: 10px; text-decoration: none; color: inherit; border: 1px solid transparent; transition: border-color .12s, box-shadow .12s; }
 .tool:hover { border-color: var(--c, #888); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c, #888) 22%, transparent); }
