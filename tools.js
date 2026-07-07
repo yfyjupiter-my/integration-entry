@@ -35,11 +35,23 @@ const search = document.getElementById("search");
 
 // Render once: group by category, build sections.
 const byCat = TOOLS.reduce((m, t) => ((m[t.category] ??= []).push(t), m), {});
-for (const [cat, tools] of Object.entries(byCat)) {
+
+// Persisted custom order of category cards (drag to rearrange).
+const ORDER_KEY = "toolsPortal.catOrder";
+const loadOrder = () => { try { return JSON.parse(localStorage.getItem(ORDER_KEY)) ?? []; } catch { return []; } };
+const saveOrder = () => localStorage.setItem(ORDER_KEY,
+  JSON.stringify([...main.children].map((s) => s.dataset.cat)));
+
+const cats = Object.keys(byCat);
+const saved = loadOrder().filter((c) => cats.includes(c));
+const orderedCats = [...saved, ...cats.filter((c) => !saved.includes(c))];
+
+for (const cat of orderedCats) {
+  const tools = byCat[cat];
   const section = document.createElement("section");
   section.dataset.cat = cat;
   section.style.setProperty("--cat", `hsl(${hashHue(cat)} 60% 45%)`);
-  section.innerHTML = `<h2>${cat}</h2><div class="grid"></div>`;
+  section.innerHTML = `<h2><span class="grip" title="Drag to rearrange" aria-label="Drag to rearrange">⠿</span>${cat}</h2><div class="grid"></div>`;
   const grid = section.querySelector(".grid");
   for (const t of tools) {
     const a = document.createElement("a");
@@ -58,6 +70,57 @@ for (const [cat, tools] of Object.entries(byCat)) {
   }
   main.append(section);
 }
+
+// Drag to rearrange category cards. Dragging is armed only from the grip
+// handle so tool links and text selection keep working normally.
+let dragged = null;
+main.addEventListener("mousedown", (e) => {
+  const grip = e.target.closest(".grip");
+  if (grip) grip.closest("section").draggable = true;
+});
+main.addEventListener("dragstart", (e) => {
+  dragged = e.target.closest("section");
+  dragged.classList.add("dragging");
+  e.dataTransfer.effectAllowed = "move";
+});
+// FLIP: smoothly slide siblings from their old spot to the new one.
+const noMotion = matchMedia("(prefers-reduced-motion: reduce)");
+function flipMove(mutate) {
+  if (noMotion.matches) return mutate();
+  const sibs = [...main.children].filter((s) => s !== dragged);
+  const first = new Map(sibs.map((s) => [s, s.getBoundingClientRect()]));
+  mutate();
+  for (const s of sibs) {
+    const a = first.get(s), b = s.getBoundingClientRect();
+    const dx = a.left - b.left, dy = a.top - b.top;
+    if (!dx && !dy) continue;
+    s.style.transition = "none";
+    s.style.transform = `translate(${dx}px, ${dy}px)`;
+    requestAnimationFrame(() => {
+      s.style.transition = "transform .22s ease-out";
+      s.style.transform = "";
+    });
+  }
+}
+main.addEventListener("dragover", (e) => {
+  if (!dragged) return;
+  e.preventDefault();
+  const over = e.target.closest("section");
+  if (!over || over === dragged) return;
+  const r = over.getBoundingClientRect();
+  const after = (e.clientY - r.top) / r.height > 0.5;
+  const ref = after ? over.nextSibling : over;
+  if (ref === dragged) return;         // no-op move, skip animation
+  flipMove(() => main.insertBefore(dragged, ref));
+});
+main.addEventListener("dragend", () => {
+  if (!dragged) return;
+  dragged.classList.remove("dragging");
+  dragged.draggable = false;
+  dragged = null;
+  for (const s of main.children) { s.style.transition = ""; s.style.transform = ""; }
+  saveOrder();
+});
 
 // Filter on input: hide non-matching tools, then hide empty sections.
 function filter() {

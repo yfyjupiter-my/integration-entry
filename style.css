@@ -47,7 +47,7 @@ h1 { margin: 0; font-size: 1.6rem; font-weight: 700; display: flex; align-items:
 section { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: var(--gap); box-shadow: 0 1px 3px rgba(0,0,0,.04); }
 @keyframes cat-blink { 50% { opacity: .55; } }
 section h2 {
-  display: inline-block;
+  display: inline-flex; align-items: center; gap: .4rem;
   font-size: .72rem; text-transform: uppercase; letter-spacing: .08em;
   margin: 0 0 1rem;
   padding: .28rem .7rem; border-radius: 999px;
@@ -55,6 +55,12 @@ section h2 {
   background: color-mix(in srgb, var(--cat, #999) 14%, transparent);
   animation: cat-blink 1.6s ease-in-out infinite;
 }
+section h2 .grip {
+  cursor: grab; user-select: none; letter-spacing: 0;
+  opacity: .55; font-size: .9rem; line-height: 1;
+}
+section h2 .grip:active { cursor: grabbing; }
+section.dragging { opacity: .5; box-shadow: 0 6px 20px rgba(0,0,0,.15); }
 @media (prefers-reduced-motion: reduce) { section h2 { animation: none; } }
 .grid { display: grid; gap: .5rem; }
 .tool { display: flex; gap: .7rem; align-items: center; padding: .7rem .85rem; border-radius: 10px; text-decoration: none; color: inherit; border: 1px solid transparent; transition: border-color .12s, box-shadow .12s; }
