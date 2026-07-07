@@ -15,6 +15,7 @@ const TOOLS = [
   { name: "Knowledge Board", url: "https://knowledge-board-lovat.vercel.app/", category: "General", desc: "Self-study knowledge manage"},
   { name: "Calculator", url: "https://yfyjupiter-my.github.io/calculator/", category: "General", desc: "Simple math calculation"},
   { name: "Example CI/CD Tool", url: "https://example.com", category: "CI/CD", desc: "Coming soon" },
+  { name: "Web-file", url: "https://web-file-delta.vercel.app/", category: "IT Support", desc: "Portable file store"},
   { name: "IT Knowledge-Base", url: "https://example.com", category: "IT Support", desc: "Coming soon" },
   { name: "Endpoit Central", url: "https://endpoint-central.internal:8383/webclient#/uems/home/getting-started", category: "IT Support", desc: "Unified Endpoint Management and Security Platform"},
   { name: "Snipe-IT Asset Management", url: "http://snipe-it.internal:8000", category: "IT Support", desc: "Asset and Financial Tracking"},
