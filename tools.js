@@ -8,6 +8,7 @@ const ICONS = {
   box:   "M3 7l9-4 9 4-9 4-9-4zm0 0v10l9 4 9-4V7",         // cube
 };
 const GENERIC = "M4 4h16v16H4zM4 9h16";
+const SVG_NS = "http://www.w3.org/2000/svg";
 
 const TOOLS = [
   { name: "Office Kit", url: "https://officekit.maplescraps.com/", category: "General", desc: "Mini tools" },
@@ -17,8 +18,10 @@ const TOOLS = [
   { name: "Example CI/CD Tool", url: "https://example.com", category: "CI/CD", desc: "Coming soon" },
   { name: "Web-file", url: "https://web-file-delta.vercel.app/", category: "IT Support", desc: "Portable file store"},
   { name: "IT Knowledge-Base", url: "https://example.com", category: "IT Support", desc: "Coming soon" },
+  // Internal-only tools: point these hostnames at real internal DNS (LAN/VPN).
+  // Do NOT hardcode raw private IPs here — this file may be served publicly.
   { name: "Endpoit Central", url: "https://endpoint-central.internal:8383/webclient#/uems/home/getting-started", category: "IT Support", desc: "Unified Endpoint Management and Security Platform"},
-  { name: "Snipe-IT Asset Management", url: "http://snipe-it.internal:8000", category: "IT Support", desc: "Asset and Financial Tracking"},
+  { name: "Snipe-IT Asset Management", url: "https://snipe-it.internal", category: "IT Support", desc: "Asset and Financial Tracking"},
   { name: "Example Infrastructure Tool", url: "https://example.com", category: "Infrastructure", desc: "Coming soon", icon: ICONS.box },
   { name: "Grafana", url: "https://grafana.com", category: "Observability", desc: "Coming soon", color: "#f46800", icon: ICONS.chart },
   { name: "Sentry", url: "https://sentry.io", category: "Observability", desc: "Coming soon", color: "#6c5fc7", icon: ICONS.bell },
@@ -52,7 +55,10 @@ for (const cat of orderedCats) {
   const section = document.createElement("section");
   section.dataset.cat = cat;
   section.style.setProperty("--cat", `hsl(${hashHue(cat)} 60% 45%)`);
-  section.innerHTML = `<h2><span class="grip" title="Drag to rearrange" aria-label="Drag to rearrange">⠿</span>${cat}</h2><div class="grid"></div>`;
+  // Static markup only here; the category name is appended as a text node
+  // (never interpolated into innerHTML) so it can't inject DOM.
+  section.innerHTML = `<h2><span class="grip" title="Drag to rearrange" aria-label="Drag to rearrange">⠿</span></h2><div class="grid"></div>`;
+  section.querySelector("h2").append(cat);
   const grid = section.querySelector(".grid");
   for (const t of tools) {
     const a = document.createElement("a");
@@ -62,11 +68,30 @@ for (const cat of orderedCats) {
     a.rel = "noopener noreferrer";
     a.dataset.text = `${t.name} ${t.desc ?? ""}`.toLowerCase();
     a.style.setProperty("--c", colorFor(t));
-    a.innerHTML = `<svg class="ico" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">`
-      + `<path d="${t.icon ?? GENERIC}"/></svg>`
-      + `<div class="body"><div class="name"></div>${t.desc ? `<div class="desc"></div>` : ""}</div>`;
-    a.querySelector(".name").textContent = t.name;
-    if (t.desc) a.querySelector(".desc").textContent = t.desc;
+    // Build the icon via DOM: setAttribute("d", …) never parses HTML, so an
+    // arbitrary icon path string cannot break out and inject markup.
+    const svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("class", "ico");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("width", "22");
+    svg.setAttribute("height", "22");
+    svg.setAttribute("aria-hidden", "true");
+    const path = document.createElementNS(SVG_NS, "path");
+    path.setAttribute("d", t.icon ?? GENERIC);
+    svg.append(path);
+    const body = document.createElement("div");
+    body.className = "body";
+    const nameEl = document.createElement("div");
+    nameEl.className = "name";
+    nameEl.textContent = t.name;
+    body.append(nameEl);
+    if (t.desc) {
+      const descEl = document.createElement("div");
+      descEl.className = "desc";
+      descEl.textContent = t.desc;
+      body.append(descEl);
+    }
+    a.append(svg, body);
     grid.append(a);
   }
   main.append(section);
